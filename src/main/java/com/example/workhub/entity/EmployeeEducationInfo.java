@@ -16,10 +16,12 @@ public class EmployeeEducationInfo {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long educationId;
 
-  private Long employeeId;
-
   private String degree;
   private String institution;
   private Integer yearOfPassing;
   private Double percentageOrCgpa;
+
+  @ManyToOne
+  @JoinColumn(name = "employee_id")
+  private EmployeePrimaryInfo employeePrimaryInfo;
 }

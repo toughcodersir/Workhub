@@ -9,6 +9,6 @@ import java.util.List;
 @Repository
 public interface EmployeeEducationInfoRepository extends JpaRepository<EmployeeEducationInfo, Long> {
 
-  // Get all education records for a given employee
-  List<EmployeeEducationInfo> findByEmployeeId(Long employeeId);
+  // Get all education records for a given employee using mapping
+  List<EmployeeEducationInfo> findByEmployeePrimaryInfoEmployeeId(Long employeeId);
 }

@@ -16,9 +16,10 @@ public class EmployeeExperienceInfoController {
     this.service = service;
   }
 
-  @PostMapping
-  public EmployeeExperienceInfo create(@RequestBody EmployeeExperienceInfo experience) {
-    return service.createExperience(experience);
+  @PostMapping("/employee/{employeeId}")
+  public EmployeeExperienceInfo create(@PathVariable Long employeeId,
+      @RequestBody EmployeeExperienceInfo experience) {
+    return service.createExperience(employeeId, experience);
   }
 
   @GetMapping("/{id}")
@@ -28,16 +29,17 @@ public class EmployeeExperienceInfoController {
 
   @GetMapping
   public List<EmployeeExperienceInfo> getAll() {
-    return service.getAllExperience();
+    return service.getAllExperiences();
   }
 
   @GetMapping("/employee/{employeeId}")
   public List<EmployeeExperienceInfo> getByEmployee(@PathVariable Long employeeId) {
-    return service.getExperienceByEmployeeId(employeeId);
+    return service.getExperiencesByEmployeeId(employeeId);
   }
 
   @PutMapping("/{id}")
-  public EmployeeExperienceInfo update(@PathVariable Long id, @RequestBody EmployeeExperienceInfo experience) {
+  public EmployeeExperienceInfo update(@PathVariable Long id,
+      @RequestBody EmployeeExperienceInfo experience) {
     return service.updateExperience(id, experience);
   }
 

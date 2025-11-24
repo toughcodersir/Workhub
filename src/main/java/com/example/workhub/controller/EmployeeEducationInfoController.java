@@ -16,10 +16,11 @@ public class EmployeeEducationInfoController {
     this.service = service;
   }
 
-  // Create a new education record
-  @PostMapping
-  public EmployeeEducationInfo create(@RequestBody EmployeeEducationInfo education) {
-    return service.createEducation(education);
+  // Create education for a specific employee
+  @PostMapping("/{employeeId}")
+  public EmployeeEducationInfo create(@PathVariable Long employeeId,
+      @RequestBody EmployeeEducationInfo education) {
+    return service.createEducation(employeeId, education);
   }
 
   // Get one education record by its id
@@ -42,7 +43,8 @@ public class EmployeeEducationInfoController {
 
   // Update an education record by id
   @PutMapping("/{id}")
-  public EmployeeEducationInfo update(@PathVariable Long id, @RequestBody EmployeeEducationInfo education) {
+  public EmployeeEducationInfo update(@PathVariable Long id,
+      @RequestBody EmployeeEducationInfo education) {
     return service.updateEducation(id, education);
   }
 

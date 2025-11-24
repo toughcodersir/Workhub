@@ -16,11 +16,14 @@ public class EmployeeExperienceInfo {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long experienceId;
 
-  private Long employeeId;
   private String companyName;
   private String jobTitle;
   private String startDate;
   private String endDate;
   private Double yearsOfExperience;
   private String technologiesUsed;
+
+  @ManyToOne
+  @JoinColumn(name = "employee_id")
+  private EmployeePrimaryInfo employeePrimaryInfo;
 }

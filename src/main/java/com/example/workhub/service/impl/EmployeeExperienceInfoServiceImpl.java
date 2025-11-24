@@ -1,6 +1,8 @@
 package com.example.workhub.service.impl;
 
+import com.example.workhub.entity.EmployeePrimaryInfo;
 import com.example.workhub.entity.EmployeeExperienceInfo;
+import com.example.workhub.repository.EmployeePrimaryInfoRepository;
 import com.example.workhub.repository.EmployeeExperienceInfoRepository;
 import com.example.workhub.service.EmployeeExperienceInfoService;
 import org.springframework.stereotype.Service;
@@ -11,13 +13,21 @@ import java.util.List;
 public class EmployeeExperienceInfoServiceImpl implements EmployeeExperienceInfoService {
 
   private final EmployeeExperienceInfoRepository repository;
+  private final EmployeePrimaryInfoRepository primaryRepo;
 
-  public EmployeeExperienceInfoServiceImpl(EmployeeExperienceInfoRepository repository) {
+  public EmployeeExperienceInfoServiceImpl(EmployeeExperienceInfoRepository repository,
+      EmployeePrimaryInfoRepository primaryRepo) {
     this.repository = repository;
+    this.primaryRepo = primaryRepo;
   }
 
   @Override
-  public EmployeeExperienceInfo createExperience(EmployeeExperienceInfo experience) {
+  public EmployeeExperienceInfo createExperience(Long employeeId, EmployeeExperienceInfo experience) {
+    EmployeePrimaryInfo employee = primaryRepo.findById(employeeId).orElse(null);
+    if (employee == null)
+      return null;
+
+    experience.setEmployeePrimaryInfo(employee);
     return repository.save(experience);
   }
 
@@ -27,23 +37,24 @@ public class EmployeeExperienceInfoServiceImpl implements EmployeeExperienceInfo
   }
 
   @Override
-  public List<EmployeeExperienceInfo> getAllExperience() {
+  public List<EmployeeExperienceInfo> getAllExperiences() {
     return repository.findAll();
   }
 
   @Override
-  public List<EmployeeExperienceInfo> getExperienceByEmployeeId(Long employeeId) {
-    return repository.findByEmployeeId(employeeId);
+  public List<EmployeeExperienceInfo> getExperiencesByEmployeeId(Long employeeId) {
+    return repository.findByEmployeePrimaryInfoEmployeeId(employeeId);
   }
 
   @Override
   public EmployeeExperienceInfo updateExperience(Long id, EmployeeExperienceInfo updatedExperience) {
-    EmployeeExperienceInfo existing = repository.findById(id).orElse(null);
-    if (existing == null)
-      return null;
-
-    updatedExperience.setExperienceId(id);
-    return repository.save(updatedExperience);
+    return repository.findById(id)
+        .map(existing -> {
+          updatedExperience.setExperienceId(id);
+          updatedExperience.setEmployeePrimaryInfo(existing.getEmployeePrimaryInfo());
+          return repository.save(updatedExperience);
+        })
+        .orElse(null);
   }
 
   @Override
