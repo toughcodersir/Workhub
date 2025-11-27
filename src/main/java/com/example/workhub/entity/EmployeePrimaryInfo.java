@@ -2,7 +2,6 @@ package com.example.workhub.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.time.LocalDate;
 
 @Entity
@@ -13,11 +12,9 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Builder
 public class EmployeePrimaryInfo {
-
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long employeeId;
-
   private String firstName;
   private String lastName;
   private String email;
