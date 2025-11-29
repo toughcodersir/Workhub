@@ -37,6 +37,12 @@ public class MentorController {
     return service.getMentor(id);
   }
 
+  // ⭐ REQUIRED FOR MentorList
+  @GetMapping
+  public List<Mentor> getAll() {
+    return service.getAllMentors();
+  }
+
   @GetMapping("/search")
   public List<Mentor> search(@RequestParam String keyword) {
     return service.searchMentors(keyword);

@@ -51,4 +51,10 @@ public class BatchServiceImpl implements BatchService {
   public List<Batch> searchBatch(String keyword) {
     return repo.findByBatchNameContainingIgnoreCase(keyword);
   }
+
+  // ⭐ NEW METHOD (Fixes 405 error & enables frontend to load batches)
+  @Override
+  public List<Batch> getAllBatches() {
+    return repo.findAll();
+  }
 }

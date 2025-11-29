@@ -5,12 +5,19 @@ function NavBar() {
   const [searchId, setSearchId] = useState("");
   const navigate = useNavigate();
 
+  const isAdminLoggedIn = !!localStorage.getItem("admin");
+
   const handleSearch = (e) => {
     e.preventDefault();
     if (!searchId) return;
 
     navigate(`/employees/${searchId}/full-profile`);
     setSearchId("");
+  };
+
+  const handleAdminLogout = () => {
+    localStorage.removeItem("admin");
+    navigate("/admin/login");
   };
 
   return (
@@ -22,6 +29,7 @@ function NavBar() {
       <div className="collapse navbar-collapse">
         <ul className="navbar-nav ms-auto">
 
+          {/* EMPLOYEE LINKS */}
           <li className="nav-item">
             <Link className="nav-link" to="/employees">Employees</Link>
           </li>
@@ -29,6 +37,44 @@ function NavBar() {
           <li className="nav-item">
             <Link className="nav-link" to="/employees/add">Add Employee</Link>
           </li>
+
+          {/* ADMIN LINKS */}
+          <li className="nav-item">
+            <Link className="nav-link" to="/admin">Admin</Link>
+          </li>
+
+          <li className="nav-item">
+            <Link className="nav-link" to="/admin/batches">Batches</Link>
+          </li>
+
+          <li className="nav-item">
+            <Link className="nav-link" to="/admin/mentors">Mentors</Link>
+          </li>
+
+          {/* IF ADMIN IS NOT LOGGED IN → show Login + Register */}
+          {!isAdminLoggedIn && (
+            <>
+              <li className="nav-item">
+                <Link className="nav-link" to="/admin/login">Admin Login</Link>
+              </li>
+
+              <li className="nav-item">
+                <Link className="nav-link" to="/admin/register">Admin Register</Link>
+              </li>
+            </>
+          )}
+
+          {/* IF ADMIN LOGGED IN → show Logout */}
+          {isAdminLoggedIn && (
+            <li className="nav-item">
+              <button
+                className="btn btn-warning ms-3"
+                onClick={handleAdminLogout}
+              >
+                Logout
+              </button>
+            </li>
+          )}
 
           {/* SEARCH BAR */}
           <li className="nav-item ms-3">

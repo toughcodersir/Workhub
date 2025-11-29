@@ -16,6 +16,12 @@ public class BatchController {
     this.service = service;
   }
 
+  // ⭐ GET ALL BATCHES (Fixes frontend 405 error)
+  @GetMapping
+  public List<Batch> getAll() {
+    return service.getAllBatches();
+  }
+
   @PostMapping
   public Batch create(@RequestBody Batch batch) {
     return service.createBatch(batch);

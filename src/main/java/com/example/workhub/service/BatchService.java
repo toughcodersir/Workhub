@@ -1,7 +1,6 @@
 package com.example.workhub.service;
 
 import com.example.workhub.entity.Batch;
-
 import java.util.List;
 
 public interface BatchService {
@@ -15,4 +14,7 @@ public interface BatchService {
   Batch getBatchById(Long batchId);
 
   List<Batch> searchBatch(String keyword);
+
+  // ⭐ NEW METHOD
+  List<Batch> getAllBatches();
 }

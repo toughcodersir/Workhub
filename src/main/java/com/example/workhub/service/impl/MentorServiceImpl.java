@@ -46,6 +46,12 @@ public class MentorServiceImpl implements MentorService {
     return repo.findById(id).orElse(null);
   }
 
+  // ⭐ REQUIRED for Mentor List Page
+  @Override
+  public List<Mentor> getAllMentors() {
+    return repo.findAll();
+  }
+
   @Override
   public List<Mentor> searchMentors(String keyword) {
     return repo.findByNameContainingIgnoreCase(keyword);
