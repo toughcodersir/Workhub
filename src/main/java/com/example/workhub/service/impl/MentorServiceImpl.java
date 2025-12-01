@@ -1,6 +1,7 @@
 package com.example.workhub.service.impl;
 
 import com.example.workhub.entity.Mentor;
+import com.example.workhub.exception.ResourceNotFoundException;
 import com.example.workhub.repository.MentorRepository;
 import com.example.workhub.service.MentorService;
 import org.springframework.stereotype.Service;
@@ -23,9 +24,9 @@ public class MentorServiceImpl implements MentorService {
 
   @Override
   public Mentor updateMentor(Long id, Mentor updated) {
-    Mentor existing = repo.findById(id).orElse(null);
-    if (existing == null)
-      return null;
+
+    Mentor existing = repo.findById(id)
+        .orElseThrow(() -> new ResourceNotFoundException("Mentor not found with ID: " + id));
 
     existing.setName(updated.getName());
     existing.setEmail(updated.getEmail());
@@ -38,15 +39,19 @@ public class MentorServiceImpl implements MentorService {
 
   @Override
   public void deleteMentor(Long id) {
-    repo.deleteById(id);
+
+    Mentor existing = repo.findById(id)
+        .orElseThrow(() -> new ResourceNotFoundException("Mentor not found with ID: " + id));
+
+    repo.delete(existing);
   }
 
   @Override
   public Mentor getMentor(Long id) {
-    return repo.findById(id).orElse(null);
+    return repo.findById(id)
+        .orElseThrow(() -> new ResourceNotFoundException("Mentor not found with ID: " + id));
   }
 
-  // ⭐ REQUIRED for Mentor List Page
   @Override
   public List<Mentor> getAllMentors() {
     return repo.findAll();

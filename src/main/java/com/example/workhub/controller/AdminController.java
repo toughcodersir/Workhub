@@ -1,6 +1,7 @@
 package com.example.workhub.controller;
 
 import com.example.workhub.entity.Admin;
+import com.example.workhub.exception.InvalidCredentialsException;
 import com.example.workhub.service.AdminService;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +22,12 @@ public class AdminController {
 
   @PostMapping("/login")
   public Admin login(@RequestBody Admin admin) {
-    return service.login(admin.getEmail(), admin.getPassword());
+    Admin loggedIn = service.login(admin.getEmail(), admin.getPassword());
+
+    if (loggedIn == null) {
+      throw new InvalidCredentialsException("Invalid email or password");
+    }
+
+    return loggedIn;
   }
 }

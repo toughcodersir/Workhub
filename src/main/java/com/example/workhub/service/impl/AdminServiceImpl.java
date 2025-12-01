@@ -1,6 +1,7 @@
 package com.example.workhub.service.impl;
 
 import com.example.workhub.entity.Admin;
+import com.example.workhub.exception.InvalidCredentialsException;
 import com.example.workhub.repository.AdminRepository;
 import com.example.workhub.service.AdminService;
 import org.springframework.stereotype.Service;
@@ -21,13 +22,20 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Admin login(String email, String password) {
+
         Admin admin = repo.findByEmail(email);
 
-        if (admin == null)
-            return null;
-        if (!admin.getPassword().equals(password))
-            return null;
+        // email not found
+        if (admin == null) {
+            throw new InvalidCredentialsException("Invalid email or password.");
+        }
 
-        return admin; // login success
+        // password mismatch
+        if (!admin.getPassword().equals(password)) {
+            throw new InvalidCredentialsException("Invalid email or password.");
+        }
+
+        // success
+        return admin;
     }
 }

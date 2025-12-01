@@ -1,6 +1,7 @@
 package com.example.workhub.controller;
 
 import com.example.workhub.entity.Batch;
+import com.example.workhub.exception.ResourceNotFoundException;
 import com.example.workhub.service.BatchService;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +17,7 @@ public class BatchController {
     this.service = service;
   }
 
-  // ⭐ GET ALL BATCHES (Fixes frontend 405 error)
+  // ⭐ GET ALL BATCHES
   @GetMapping
   public List<Batch> getAll() {
     return service.getAllBatches();
@@ -29,18 +30,30 @@ public class BatchController {
 
   @PutMapping("/{id}")
   public Batch update(@PathVariable Long id, @RequestBody Batch batch) {
+    Batch existing = service.getBatchById(id);
+    if (existing == null) {
+      throw new ResourceNotFoundException("Batch ID " + id + " not found.");
+    }
     return service.updateBatch(id, batch);
   }
 
   @DeleteMapping("/{id}")
   public String delete(@PathVariable Long id) {
+    Batch batch = service.getBatchById(id);
+    if (batch == null) {
+      throw new ResourceNotFoundException("Batch ID " + id + " not found.");
+    }
     service.deleteBatch(id);
     return "Batch deleted successfully";
   }
 
   @GetMapping("/{id}")
   public Batch getOne(@PathVariable Long id) {
-    return service.getBatchById(id);
+    Batch batch = service.getBatchById(id);
+    if (batch == null) {
+      throw new ResourceNotFoundException("Batch ID " + id + " not found.");
+    }
+    return batch;
   }
 
   @GetMapping("/search")

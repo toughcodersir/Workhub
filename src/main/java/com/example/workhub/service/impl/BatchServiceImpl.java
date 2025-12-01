@@ -1,6 +1,7 @@
 package com.example.workhub.service.impl;
 
 import com.example.workhub.entity.Batch;
+import com.example.workhub.exception.ResourceNotFoundException;
 import com.example.workhub.repository.BatchRepository;
 import com.example.workhub.service.BatchService;
 import org.springframework.stereotype.Service;
@@ -23,9 +24,9 @@ public class BatchServiceImpl implements BatchService {
 
   @Override
   public Batch updateBatch(Long batchId, Batch updated) {
-    Batch existing = repo.findById(batchId).orElse(null);
-    if (existing == null)
-      return null;
+
+    Batch existing = repo.findById(batchId)
+        .orElseThrow(() -> new ResourceNotFoundException("Batch not found with ID: " + batchId));
 
     existing.setBatchName(updated.getBatchName());
     existing.setMentorName(updated.getMentorName());
@@ -39,12 +40,17 @@ public class BatchServiceImpl implements BatchService {
 
   @Override
   public void deleteBatch(Long batchId) {
-    repo.deleteById(batchId);
+
+    Batch existing = repo.findById(batchId)
+        .orElseThrow(() -> new ResourceNotFoundException("Batch not found with ID: " + batchId));
+
+    repo.delete(existing);
   }
 
   @Override
   public Batch getBatchById(Long batchId) {
-    return repo.findById(batchId).orElse(null);
+    return repo.findById(batchId)
+        .orElseThrow(() -> new ResourceNotFoundException("Batch not found with ID: " + batchId));
   }
 
   @Override
@@ -52,7 +58,6 @@ public class BatchServiceImpl implements BatchService {
     return repo.findByBatchNameContainingIgnoreCase(keyword);
   }
 
-  // ⭐ NEW METHOD (Fixes 405 error & enables frontend to load batches)
   @Override
   public List<Batch> getAllBatches() {
     return repo.findAll();

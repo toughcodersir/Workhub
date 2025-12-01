@@ -1,6 +1,7 @@
 package com.example.workhub.controller;
 
 import com.example.workhub.entity.Mentor;
+import com.example.workhub.exception.ResourceNotFoundException;
 import com.example.workhub.service.MentorService;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,21 +24,34 @@ public class MentorController {
 
   @PutMapping("/{id}")
   public Mentor update(@PathVariable Long id, @RequestBody Mentor mentor) {
+    Mentor existing = service.getMentor(id);
+    if (existing == null) {
+      throw new ResourceNotFoundException("Mentor ID " + id + " not found.");
+    }
     return service.updateMentor(id, mentor);
   }
 
   @DeleteMapping("/{id}")
   public String delete(@PathVariable Long id) {
+    Mentor mentor = service.getMentor(id);
+    if (mentor == null) {
+      throw new ResourceNotFoundException("Mentor ID " + id + " not found.");
+    }
     service.deleteMentor(id);
     return "Mentor deleted successfully";
   }
 
+  // ⭐ GET ONE
   @GetMapping("/{id}")
   public Mentor getOne(@PathVariable Long id) {
-    return service.getMentor(id);
+    Mentor mentor = service.getMentor(id);
+    if (mentor == null) {
+      throw new ResourceNotFoundException("Mentor ID " + id + " not found.");
+    }
+    return mentor;
   }
 
-  // ⭐ REQUIRED FOR MentorList
+  // ⭐ GET ALL
   @GetMapping
   public List<Mentor> getAll() {
     return service.getAllMentors();

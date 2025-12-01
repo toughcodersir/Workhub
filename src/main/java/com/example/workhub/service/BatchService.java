@@ -15,6 +15,5 @@ public interface BatchService {
 
   List<Batch> searchBatch(String keyword);
 
-  // ⭐ NEW METHOD
   List<Batch> getAllBatches();
 }

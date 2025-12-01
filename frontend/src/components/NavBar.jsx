@@ -29,29 +29,15 @@ function NavBar() {
       <div className="collapse navbar-collapse">
         <ul className="navbar-nav ms-auto">
 
-          {/* EMPLOYEE LINKS */}
+          {/* Always visible */}
           <li className="nav-item">
             <Link className="nav-link" to="/employees">Employees</Link>
           </li>
-
           <li className="nav-item">
             <Link className="nav-link" to="/employees/add">Add Employee</Link>
           </li>
 
-          {/* ADMIN LINKS */}
-          <li className="nav-item">
-            <Link className="nav-link" to="/admin">Admin</Link>
-          </li>
-
-          <li className="nav-item">
-            <Link className="nav-link" to="/admin/batches">Batches</Link>
-          </li>
-
-          <li className="nav-item">
-            <Link className="nav-link" to="/admin/mentors">Mentors</Link>
-          </li>
-
-          {/* IF ADMIN IS NOT LOGGED IN → show Login + Register */}
+          {/* WHEN ADMIN IS NOT LOGGED IN */}
           {!isAdminLoggedIn && (
             <>
               <li className="nav-item">
@@ -64,19 +50,33 @@ function NavBar() {
             </>
           )}
 
-          {/* IF ADMIN LOGGED IN → show Logout */}
+          {/* WHEN ADMIN IS LOGGED IN */}
           {isAdminLoggedIn && (
-            <li className="nav-item">
-              <button
-                className="btn btn-warning ms-3"
-                onClick={handleAdminLogout}
-              >
-                Logout
-              </button>
-            </li>
+            <>
+              <li className="nav-item">
+                <Link className="nav-link" to="/admin">Dashboard</Link>
+              </li>
+
+              <li className="nav-item">
+                <Link className="nav-link" to="/admin/batches">Batches</Link>
+              </li>
+
+              <li className="nav-item">
+                <Link className="nav-link" to="/admin/mentors">Mentors</Link>
+              </li>
+
+              <li className="nav-item">
+                <button
+                  className="btn btn-warning ms-3"
+                  onClick={handleAdminLogout}
+                >
+                  Logout
+                </button>
+              </li>
+            </>
           )}
 
-          {/* SEARCH BAR */}
+          {/* SEARCH BAR (open to everyone) */}
           <li className="nav-item ms-3">
             <form className="d-flex" onSubmit={handleSearch}>
               <input
@@ -87,7 +87,6 @@ function NavBar() {
                 onChange={(e) => setSearchId(e.target.value)}
                 style={{ width: "140px" }}
               />
-
               <button className="btn btn-light ms-2">Go</button>
             </form>
           </li>

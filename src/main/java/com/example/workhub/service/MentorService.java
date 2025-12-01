@@ -13,7 +13,7 @@ public interface MentorService {
 
   Mentor getMentor(Long id);
 
-  List<Mentor> getAllMentors(); // ⭐ REQUIRED
+  List<Mentor> getAllMentors();
 
   List<Mentor> searchMentors(String keyword);
 }
