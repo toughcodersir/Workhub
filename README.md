@@ -4,16 +4,10 @@ A Full-Stack Monolithic LMS Application built with Spring Boot and React
 
 🌐 Overview
 
-WorkHub is a complete Learning Management Platform (LMS) designed to simplify how organizations manage their Employees, Batches, and Mentors.
-
-It is built as a monolithic full-stack application using:
-
-Backend: Java 21, Spring Boot, Spring Data JPA, PostgreSQL
-
-Frontend: React.js
+WorkHub is a complete Learning Management Platform (LMS) designed to simplify how organizations manage their Employees, Batches, and Mentors. It is built as a monolithic full-stack application using:
+Backend: Java 21, Spring Boot, Spring Data JPA, PostgreSQL and React,js for the frontend.
 
 Testing Tools: Postman
-
 Build Tools: Maven & Node.js
 
 WorkHub provides clean UI, powerful admin tools, and complete CRUD operations for all modules.
